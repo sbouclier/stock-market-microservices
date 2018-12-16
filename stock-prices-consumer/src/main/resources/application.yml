@@ -1,0 +1,15 @@
+server:
+  port: 9082
+
+spring:
+  activemq:
+    broker-url: tcp://localhost:61616
+    user: admin
+    password: admin
+
+jms:
+  stock-prices:
+    queue:
+      name: stock.prices.queue
+    topic:
+      name: stock.prices.topic
