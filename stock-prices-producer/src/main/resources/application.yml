@@ -1,8 +1,8 @@
 server:
   port: 9081
 
-info:
-  artifact: stock-prices-producer
+application:
+  name: stock-prices-producer
   version: 1.0
 
 spring:

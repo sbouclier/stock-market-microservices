@@ -3,8 +3,8 @@
 
     <property name="LOGS" value="./logs" />
 
-    <springProperty scope="context" name="appName" source="info.artifact"/>
-    <springProperty scope="context" name="appVersion" source="info.version"/>
+    <springProperty scope="context" name="appName" source="application.name"/>
+    <springProperty scope="context" name="appVersion" source="application.version"/>
 
     <appender name="Console"
               class="ch.qos.logback.core.ConsoleAppender">
