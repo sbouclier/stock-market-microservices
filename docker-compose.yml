@@ -23,28 +23,65 @@ services:
       ACTIVEMQ_STATIC_TOPICS: stock.prices.topic
     networks: [stock-market-network]
     volumes:
-    - /container_data/activemq/data:/data/activemq
-    - /container_data/activemq/log:/var/log/activemq
+    - /home/steph/container_data/activemq/data:/data/activemq
+    - /home/steph/container_data/activemq/log:/var/log/activemq
+
+  elasticsearch:
+    image: elasticsearch:${TAG_ELK}
+    container_name: elastic
+    environment:
+    - ES_JAVA_OPTS=-Xms1g -Xmx1g
+    ports:
+    - 9200:9200
+    - 9300:9300
+    networks:
+    - stock-market-network
+
+  kibana:
+    image: kibana:${TAG_ELK}
+    container_name: kibana
+    ports:
+    - 5601:5601
+    networks:
+    - stock-market-network
+    depends_on:
+    - elasticsearch
+
+  logstash:
+    image: logstash:${TAG_ELK}
+    container_name: logstash
+    command: logstash -f /config/logstash.conf
+    environment:
+    - LS_JAVA_OPTS=-Xms1g -Xmx1g
+    volumes:
+    - ./logstash/config:/config
+    ports:
+    - "5000:5000"
+    - "9600:9600"
+    links:
+      - elasticsearch
+    networks: [stock-market-network]
 
   stock-prices-producer:
     container_name: stock-prices-producer
-    build:
-      context: ./stock-prices-producer
-    image: stock-prices-producer
+    build: ./stock-prices-producer
+    image: stock-prices-producer:latest
     expose:
     - 9081
     environment:
     - "SPRING_PROFILES_ACTIVE=container"
     links:
     - activemq
+    - logstash
     networks: [stock-market-network]
+    volumes:
+      - /home/steph/container_data/stock-prices-producer:/tmp
     logging:
       driver: json-file
 
   stock-prices-consumer:
     container_name: stock-prices-consumer
-    build:
-      context: ./stock-prices-consumer
+    build: ./stock-prices-consumer
     image: stock-prices-consumer
     expose:
     - 9082
@@ -53,5 +90,7 @@ services:
     links:
     - activemq
     networks: [stock-market-network]
+    volumes:
+    - /home/steph/container_data/stock-prices-consumer:/tmp
     logging:
       driver: json-file
