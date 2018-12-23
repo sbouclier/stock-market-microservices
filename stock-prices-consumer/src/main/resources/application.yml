@@ -1,6 +1,10 @@
 server:
   port: 9082
 
+application:
+  name: stock-prices-consumer
+  version: 1.0
+
 spring:
   activemq:
     broker-url: tcp://localhost:61616
