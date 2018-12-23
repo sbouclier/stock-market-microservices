@@ -1,6 +1,10 @@
 server:
   port: 9081
 
+info:
+  artifact: stock-prices-producer
+  version: 1.0
+
 spring:
   activemq:
     broker-url: tcp://localhost:61616
