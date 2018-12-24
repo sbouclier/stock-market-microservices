@@ -7,7 +7,9 @@ networks:
 services:
   activemq:
     image: webcenter/activemq:latest
+    container_name: activemq
     ports:
+    - "1099:1099"   # jmx
     - "1883:1883"   # mqtt
     - "5672:5672"   # amqp
     - "8161:8161"   # ui
@@ -25,6 +27,21 @@ services:
     volumes:
     - /home/steph/container_data/activemq/data:/data/activemq
     - /home/steph/container_data/activemq/log:/var/log/activemq
+
+  logstash:
+    image: logstash:${TAG_ELK}
+    container_name: logstash
+    command: logstash -f /config/logstash.conf
+    environment:
+    - LS_JAVA_OPTS=-Xms1g -Xmx1g
+    volumes:
+    - ./logstash/config:/config
+    ports:
+    - "5000:5000"
+    - "9600:9600"
+    links:
+    - elasticsearch
+    networks: [stock-market-network]
 
   elasticsearch:
     image: elasticsearch:${TAG_ELK}
@@ -47,20 +64,27 @@ services:
     depends_on:
     - elasticsearch
 
-  logstash:
-    image: logstash:${TAG_ELK}
-    container_name: logstash
-    command: logstash -f /config/logstash.conf
-    environment:
-    - LS_JAVA_OPTS=-Xms1g -Xmx1g
-    volumes:
-    - ./logstash/config:/config
+  prometheus:
+    image: prom/prometheus
+    container_name: prometheus
+    command:
+    - '--config.file=/etc/prometheus/prometheus.yml'
     ports:
-    - "5000:5000"
-    - "9600:9600"
+    - "9090:9090"
+    volumes:
+    - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+    networks:
+    - stock-market-network
+
+  grafana:
+    build: './grafana'
+    container_name: 'grafana'
+    ports:
+    - '3000:3000'
     links:
-      - elasticsearch
-    networks: [stock-market-network]
+    - prometheus
+    networks:
+    - stock-market-network
 
   stock-prices-producer:
     container_name: stock-prices-producer
