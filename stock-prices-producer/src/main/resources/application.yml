@@ -5,6 +5,15 @@ application:
   name: stock-prices-producer
   version: 1.0
 
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    shutdown:
+      enabled: true
+
 spring:
   activemq:
     broker-url: tcp://localhost:61616
