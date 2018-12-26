@@ -90,8 +90,8 @@ services:
     container_name: stock-prices-producer
     build: ./stock-prices-producer
     image: stock-prices-producer:latest
-    expose:
-    - 9081
+    ports:
+    - "9081:9081"
     environment:
     - "SPRING_PROFILES_ACTIVE=container"
     links:
@@ -123,8 +123,8 @@ services:
     container_name: stock-prices-consumer
     build: ./stock-prices-consumer
     image: stock-prices-consumer
-    expose:
-    - 9082
+    ports:
+    - "9082:9082"
     environment:
     - "SPRING_PROFILES_ACTIVE=container"
     links:
