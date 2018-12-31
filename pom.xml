@@ -23,6 +23,7 @@
         <module>stock-market-commons</module>
         <module>stock-prices-consumer</module>
         <module>config-service</module>
+        <module>discovery-service</module>
     </modules>
 
     <dependencyManagement>

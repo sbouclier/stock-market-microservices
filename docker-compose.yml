@@ -98,6 +98,18 @@ services:
     logging:
       driver: json-file
 
+  discovery-service:
+    container_name: discovery-service
+    build: ./discovery-service
+    image: discovery-service:latest
+    ports:
+    - "8761:8761"
+    environment:
+    - "SPRING_PROFILES_ACTIVE=container"
+    networks: [stock-market-network]
+    logging:
+      driver: json-file
+
   stock-prices-producer:
     container_name: stock-prices-producer
     build: ./stock-prices-producer
