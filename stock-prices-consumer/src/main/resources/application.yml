@@ -31,3 +31,12 @@ jms:
       name: stock.prices.queue
     topic:
       name: stock.prices.topic
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    shutdown:
+      enabled: true
