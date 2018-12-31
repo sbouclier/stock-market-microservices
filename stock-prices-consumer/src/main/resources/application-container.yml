@@ -4,3 +4,10 @@ spring:
   data:
     mongodb:
       host: mongodb
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://discovery-service:8761/eureka/
+  instance:
+    hostname: localhost

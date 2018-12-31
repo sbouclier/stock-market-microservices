@@ -6,6 +6,8 @@ application:
   version: 1.0
 
 spring:
+  application:
+    name: stock-prices-consumer
   activemq:
     broker-url: tcp://localhost:61616
     user: admin
@@ -17,6 +19,11 @@ spring:
       database: stock_prices
       username: stock_prices_user
       password: stock_prices_password
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
 
 jms:
   stock-prices:
