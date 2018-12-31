@@ -27,3 +27,9 @@ scrape_configs:
   scrape_interval: 5s
   static_configs:
   - targets: ['stock-prices-producer:9081']
+
+- job_name: 'stock-prices-consumer'
+  metrics_path: '/actuator/prometheus'
+  scrape_interval: 5s
+  static_configs:
+  - targets: ['stock-prices-consumer:9082']
