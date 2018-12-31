@@ -93,7 +93,7 @@ services:
     ports:
     - "8888:8888"
     environment:
-    - "SPRING_PROFILES_ACTIVE=native"
+    - "SPRING_PROFILES_ACTIVE=native,container"
     networks: [stock-market-network]
     logging:
       driver: json-file
