@@ -5,6 +5,19 @@ application:
   name: stock-prices-producer
   version: 1.0
 
+spring:
+  application:
+    name: stock-prices-producer
+  activemq:
+    broker-url: tcp://localhost:61616
+    user: admin
+    password: admin
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+
 management:
   endpoints:
     web:
@@ -13,12 +26,6 @@ management:
   endpoint:
     shutdown:
       enabled: true
-
-spring:
-  activemq:
-    broker-url: tcp://localhost:61616
-    user: admin
-    password: admin
 
 jms:
   stock-prices:
