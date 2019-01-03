@@ -22,6 +22,9 @@ public class StockPricesGenerationScheduledTask {
 
     private static final Logger log = LoggerFactory.getLogger(StockPricesGenerationScheduledTask.class);
 
+    @Value("${isin:FR0000000000}")
+    private String isin;
+
     @Value("${jms.stock-prices.queue.name}")
     private String jmsQueueName;
 
@@ -44,7 +47,7 @@ public class StockPricesGenerationScheduledTask {
 
     @Scheduled(fixedRate = 5000)
     public void reportCurrentTime() {
-        final StockPrice stockPrice = new StockPrice("FR", BigDecimal.TEN, LocalDateTime.now());
+        final StockPrice stockPrice = new StockPrice(isin, BigDecimal.TEN, LocalDateTime.now());
         log.info("sending sock price: {}", stockPrice);
 
         jmsTemplate.convertAndSend(jmsQueueDestination, stockPrice);
