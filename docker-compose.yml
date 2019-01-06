@@ -110,6 +110,22 @@ services:
     logging:
       driver: json-file
 
+  zipkin:
+    image: openzipkin/zipkin
+    container_name: zipkin
+    # Environment settings are defined here https://github.com/openzipkin/zipkin/tree/1.19.0/zipkin-server#environment-variables
+    environment:
+    - STORAGE_TYPE=mem
+    # Uncomment to disable scribe
+    # - SCRIBE_ENABLED=false
+    # Uncomment to enable self-tracing
+    - SELF_TRACING_ENABLED=true
+    # Uncomment to enable debug logging
+    - JAVA_OPTS=-Dlogging.level.zipkin=DEBUG
+    ports:
+    - 9411:9411
+    networks: [stock-market-network]
+
   stock-prices-producer-google:
     container_name: stock-prices-producer-google
     build: ./stock-prices-producer

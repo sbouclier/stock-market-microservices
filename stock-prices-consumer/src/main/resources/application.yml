@@ -19,6 +19,9 @@ spring:
       database: stock_prices
       username: stock_prices_user
       password: stock_prices_password
+  sleuth:
+    sampler:
+      probability: 0.5
 
 eureka:
   client:

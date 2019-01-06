@@ -12,6 +12,9 @@ spring:
     broker-url: tcp://localhost:61616
     user: admin
     password: admin
+  sleuth:
+    sampler:
+      probability: 0.5
 
 eureka:
   client:

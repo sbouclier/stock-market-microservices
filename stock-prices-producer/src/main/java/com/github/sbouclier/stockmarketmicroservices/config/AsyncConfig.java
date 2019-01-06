@@ -21,8 +21,9 @@ public class AsyncConfig extends AsyncConfigurerSupport {
     @Async
     public Executor getAsyncExecutor() {
         ThreadPoolTaskExecutor threadPoolTaskExecutor = new ThreadPoolTaskExecutor();
-        threadPoolTaskExecutor.setCorePoolSize(1);
-        threadPoolTaskExecutor.setMaxPoolSize(1);
+        threadPoolTaskExecutor.setCorePoolSize(4);
+        threadPoolTaskExecutor.setMaxPoolSize(4);
+        threadPoolTaskExecutor.setThreadNamePrefix("async-");
         threadPoolTaskExecutor.initialize();
 
         return new LazyTraceExecutor(beanFactory, threadPoolTaskExecutor);
