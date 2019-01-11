@@ -2,16 +2,16 @@ package com.github.sbouclier.stockmarketmicroservices.domain;
 
 public class ProducerStats {
 
-    private String isin;
+    private StockPrice lastPrice;
     private int count;
 
-    public ProducerStats(String isin, int count) {
-        this.isin = isin;
+    public ProducerStats(StockPrice lastPrice, int count) {
+        this.lastPrice = lastPrice;
         this.count = count;
     }
 
-    public String getIsin() {
-        return isin;
+    public StockPrice getLastPrice() {
+        return lastPrice;
     }
 
     public int getCount() {

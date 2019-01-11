@@ -1,7 +1,9 @@
 package com.github.sbouclier.stockmarketmicroservices.task;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDateTime;
+import java.util.Random;
 
 import javax.annotation.PostConstruct;
 import javax.jms.Destination;
@@ -24,6 +26,9 @@ public class StockPricesGenerationScheduledTask {
 
     private static final Logger LOG = LoggerFactory.getLogger(StockPricesGenerationScheduledTask.class);
 
+    private static final int MIN_FLUCTUATION = -1;
+    private static final int MAX_FLUCTUATION = 2;
+
     @Value("${isin:FR0000000000}")
     private String isin;
 
@@ -31,7 +36,10 @@ public class StockPricesGenerationScheduledTask {
     private String jmsQueueName;
 
     @Value("${jms.stock-prices.topic.name}")
-    String jmsTopicName;
+    private String jmsTopicName;
+
+    private Random random = new Random();
+    private BigDecimal price = new BigDecimal("100");
 
     private ApplicationEventPublisher applicationEventPublisher;
 
@@ -52,9 +60,17 @@ public class StockPricesGenerationScheduledTask {
         this.jmsTopicDestination = new ActiveMQTopic(jmsTopicName);
     }
 
-    @Scheduled(fixedRate = 5000)
+    @Scheduled(fixedRate = 1000)
     public void reportCurrentTime() {
-        final StockPrice stockPrice = new StockPrice(isin, BigDecimal.TEN, LocalDateTime.now());
+        double fluctuation = random
+                .doubles(MIN_FLUCTUATION, MAX_FLUCTUATION)
+                .findFirst()
+                .getAsDouble();
+
+        price = price.multiply(BigDecimal.valueOf(1 + fluctuation / 100));
+        price = price.setScale(2, RoundingMode.HALF_UP);
+
+        final StockPrice stockPrice = new StockPrice(isin, price, LocalDateTime.now());
         LOG.info("sending sock price: {}", stockPrice);
 
         jmsTemplate.convertAndSend(jmsQueueDestination, stockPrice);
