@@ -22,14 +22,20 @@ scrape_configs:
   static_configs:
   - targets: ['prometheus:9090']
 
-- job_name: 'stock-prices-producer'
+- job_name: 'stock-prices-producer-google'
   metrics_path: '/actuator/prometheus'
   scrape_interval: 5s
   static_configs:
-  - targets: ['stock-prices-producer:9081']
+  - targets: ['stock-prices-producer-google:9081']
+
+- job_name: 'stock-prices-producer-apple'
+  metrics_path: '/actuator/prometheus'
+  scrape_interval: 5s
+  static_configs:
+  - targets: ['stock-prices-producer-apple:9081']
 
 - job_name: 'stock-prices-consumer'
   metrics_path: '/actuator/prometheus'
   scrape_interval: 5s
   static_configs:
-  - targets: ['stock-prices-consumer:9082']
+  - targets: ['stock-prices-consumer:9083']
