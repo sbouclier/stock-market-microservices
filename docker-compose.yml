@@ -5,24 +5,19 @@ networks:
     driver: bridge
 
 services:
+
   activemq:
-    image: webcenter/activemq:latest
-    container_name: activemq
+    build: './activemq'
+    container_name: 'activemq'
     ports:
     - "1099:1099"   # jmx
     - "1883:1883"   # mqtt
     - "5672:5672"   # amqp
     - "8161:8161"   # ui
+    - "8162:8080"   # prometheus metrics
     - "61613:61613" # stomp
     - "61614:61614" # websocket
     - "61616:61616" # jms
-    environment:
-      ACTIVEMQ_NAME: amq
-      ACTIVEMQ_REMOVE_DEFAULT_ACCOUNT: 'True'
-      ACTIVEMQ_ADMIN_LOGIN: admin
-      ACTIVEMQ_ADMIN_PASSWORD: admin
-      ACTIVEMQ_STATIC_QUEUES: stock.prices.queue
-      ACTIVEMQ_STATIC_TOPICS: stock.prices.topic
     networks: [stock-market-network]
     volumes:
     - /home/steph/container_data/activemq/data:/data/activemq

@@ -22,6 +22,11 @@ scrape_configs:
   static_configs:
   - targets: ['prometheus:9090']
 
+- job_name: 'activemq'
+  scrape_interval: 1s
+  static_configs:
+  - targets: ['activemq:8080']
+
 - job_name: 'stock-prices-producer-google'
   metrics_path: '/actuator/prometheus'
   scrape_interval: 5s
