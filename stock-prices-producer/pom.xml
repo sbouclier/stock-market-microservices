@@ -27,6 +27,16 @@
             <artifactId>spring-cloud-starter-config</artifactId>
         </dependency>
 
+        <!-- api documentation -->
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger2</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger-ui</artifactId>
+        </dependency>
+
         <!-- tracing -->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
