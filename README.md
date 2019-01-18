@@ -1,13 +1,13 @@
 # stock-market-microservices
 Stock market microservices
 
-#Build
+# Build
 mvn clean package
 
-#Run
-docker-compose up
+# Run
+docker-compose --compatibility up
 
-#Services links
+# Services links
 
 | Service                | Link                                        | Comments         |
 |------------------------|---------------------------------------------|------------------|
@@ -21,7 +21,9 @@ docker-compose up
 | Kibana                 | http://localhost:5601/app/kibana            |                  |
 | Config service         | http://localhost:8888                       |                  |
 | Discovery service      | http://localhost:8761                       | Eureka           |
-| Stock prices producer  | http://localhost:9081/actuator              | Metrics          |
-| Stock prices consumer  | http://localhost:9082/actuator              | Metrics          |
-|                        | http://localhost:9082/swagger-ui.html       | API doc UI       |
-|                        | http://localhost:9082/v2/api-docs           | API doc json     |
+| Stock prices producer  | http://localhost:9081/actuator              | Google Metrics   |
+| Stock prices producer  | http://localhost:9082/actuator              | Apple Metrics    |
+| Stock prices consumer  | http://localhost:9083/actuator              | Metrics          |
+|                        | http://localhost:9083/swagger-ui.html       | API doc UI       |
+|                        | http://localhost:9083/v2/api-docs           | API doc json     |
+| Zipkin                 | http://localhost:9411                       | API doc json     |
